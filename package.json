@@ -1,0 +1,45 @@
+{
+  "name": "noteify-server",
+  "version": "0.0.1",
+  "description": "A server for noteify",
+  "main": "src/index.ts",
+  "type": "module",
+  "scripts": {
+    "dev": "ts-node --esm src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "lint": "eslint 'src/**/*.{ts,tsx}' --ignore-path .gitignore --fix && prettier --ignore-path .gitignore --check 'src/**/*.{ts,tsx}'",
+    "lint:fix": "prettier --ignore-path .gitignore --write 'src/**/*.{ts,tsx}'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Michael-Liendo/noteify-server.git"
+  },
+  "keywords": [
+    "fastify",
+    "notes",
+    "server",
+    "typescript"
+  ],
+  "author": "Michael Liendo <contact@michaelliendo.com> (https://michaelliendo.com/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Michael-Liendo/noteify-server/issues"
+  },
+  "homepage": "https://github.com/Michael-Liendo/noteify-server#readme",
+  "dependencies": {
+    "fastify": "^4.15.0",
+    "knex": "^2.4.2",
+    "pg": "^8.10.0"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.59.0",
+    "@typescript-eslint/parser": "^5.59.0",
+    "eslint": "^8.38.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "prettier": "^2.8.7",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.0.4"
+  }
+}
