@@ -3,9 +3,8 @@
   "version": "0.0.1",
   "description": "A server for noteify",
   "main": "src/index.ts",
-  "type": "module",
   "scripts": {
-    "dev": "ts-node --esm src/index.ts",
+    "dev": "ts-node src/index.ts",
     "build": "tsc",
     "start": "node dist/index.js",
     "lint": "eslint 'src/**/*.{ts,tsx}' --ignore-path .gitignore --fix && prettier --ignore-path .gitignore --check 'src/**/*.{ts,tsx}'",
