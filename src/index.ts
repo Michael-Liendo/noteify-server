@@ -3,7 +3,10 @@ dotenv.config();
 
 import Fastify from 'fastify';
 import database from './domain/database';
+import routes from './routes';
 const fastify = Fastify();
+
+fastify.register(routes, { prefix: '/api' });
 
 database
   .raw('select 1')
