@@ -28,6 +28,7 @@
   },
   "homepage": "https://github.com/Michael-Liendo/noteify-server#readme",
   "dependencies": {
+    "@types/bcrypt": "^5.0.0",
     "bcrypt": "^5.1.0",
     "dotenv": "^16.0.3",
     "fastify": "^4.15.0",
