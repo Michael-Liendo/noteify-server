@@ -3,6 +3,7 @@ import { CreateUserRequest } from '../../types/AuthRequest';
 import { hashPassword } from '../../helpers/hashPassword';
 import { createUser } from '../../domain/repository/user/createUser';
 import generateToken from '../../helpers/generateToken';
+import { userSchema } from '../../domain/model/user/user';
 
 export default async function registerControllers(
   request: FastifyRequest,
@@ -20,15 +21,25 @@ export default async function registerControllers(
       };
     }
 
+    await userSchema.validate({ full_name, email, password }).catch((err) => {
+      throw {
+        statusCode: 400,
+        error: { message: err.message, error: 'Bad Request' },
+        data: null,
+        success: false,
+      };
+    });
+
     const hashedPassword = await hashPassword(password);
 
-    // todo register validations
+    const user: CreateUserRequest = {
+      full_name,
+      email: email.toLocaleLowerCase(),
+      password: hashedPassword,
+    };
+
     try {
-      const userCreation = await createUser({
-        full_name,
-        email,
-        password: hashedPassword,
-      });
+      const userCreation = await createUser(user);
 
       const token = await generateToken(userCreation);
 
