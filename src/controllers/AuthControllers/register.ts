@@ -2,6 +2,7 @@ import { FastifyRequest, FastifyReply } from 'fastify';
 import { CreateUserRequest } from '../../types/AuthRequest';
 import { hashPassword } from '../../helpers/hashPassword';
 import { createUser } from '../../domain/repository/user/createUser';
+import generateToken from '../../helpers/generateToken';
 
 export default async function registerControllers(
   request: FastifyRequest,
@@ -11,7 +12,12 @@ export default async function registerControllers(
     const { full_name, email, password } = request.body as CreateUserRequest;
 
     if (!full_name || !email || !password) {
-      throw Error('You must send an email and password');
+      throw {
+        statusCode: 400,
+        error: { message: 'Missing fields', error: 'Bad Request' },
+        data: null,
+        success: false,
+      };
     }
 
     const hashedPassword = await hashPassword(password);
@@ -23,15 +29,55 @@ export default async function registerControllers(
         email,
         password: hashedPassword,
       });
+
+      const token = await generateToken(userCreation);
+
       response.send({
-        userCreation,
+        statusCode: 200,
+        error: null,
+        data: {
+          token,
+        },
+        success: true,
       });
     } catch (error) {
-      throw new Error(error);
+      if (error.code === '23505') {
+        const regex = /\(([^)]+)\)=(.*)/g;
+        const [, column] = regex.exec(error.detail);
+
+        throw {
+          statusCode: 400,
+          error: {
+            error: 'Bad Request',
+            message: `${column} already exists`,
+          },
+          data: null,
+          success: false,
+        };
+      } else if (error.code === '23502') {
+        throw {
+          statusCode: 400,
+          error: {
+            error: 'Bad Request',
+            message: 'A field is missing',
+          },
+          data: null,
+          success: false,
+        };
+      } else {
+        console.error(error);
+        throw {
+          statusCode: 500,
+          error: {
+            error: 'Internal Server Error',
+            message: error.message,
+          },
+          data: null,
+          success: false,
+        };
+      }
     }
   } catch (error) {
-    console.log(error);
-
-    response.code(400).send({ error: error.message });
+    response.code(error.statusCode || 500).send(error);
   }
 }
