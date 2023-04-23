@@ -1,8 +1,8 @@
 import { FastifyInstance } from 'fastify';
-import userControllers from '../../../controllers/userControllers/user';
+import usersController from '../../../controllers/userControllers/users';
 
-export default function user(fastify: FastifyInstance, options, done) {
-  fastify.get('/user', userControllers);
+export default function users(fastify: FastifyInstance, options, done) {
+  fastify.get('/users', usersController);
 
   done();
 }

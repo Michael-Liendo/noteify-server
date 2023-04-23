@@ -22,10 +22,8 @@ export default async function loginControllers(
 
     await userSchema.validate({ email, password }).catch((err) => {
       throw {
-        statusCode: 400,
-        error: { message: err.message, error: 'Bad Request' },
-        data: null,
-        success: false,
+        message: err.message,
+        error: 'Bad Request',
       };
     });
 
