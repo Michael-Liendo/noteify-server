@@ -1,16 +1,26 @@
 import { FastifyRequest, FastifyReply } from 'fastify';
-import getUsers from '../../domain/repository/user/getUsers';
+import { getUserById } from '../../domain/repository/user/getUser';
 
-export default async function usersController(
+export default async function userController(
   request: FastifyRequest,
   response: FastifyReply
 ) {
   try {
-    const users = await getUsers();
+    const { id } = request.params as { id: string };
 
-    response.send({
+    const user = await getUserById(id).catch((error) => {
+      throw {
+        statusCode: error.code,
+        message: error.detail,
+        error: error.message,
+      };
+    });
+
+    response.code(200).send({
       statusCode: 200,
-      data: { users },
+      data: {
+        user,
+      },
       error: null,
       success: true,
     });

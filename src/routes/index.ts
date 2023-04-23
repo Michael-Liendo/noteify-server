@@ -8,7 +8,7 @@ export default function routes(fastify: FastifyInstance, options, done) {
   });
 
   fastify.register(auth, { prefix: '/auth' });
-  fastify.register(user, { prefix: '/user' });
+  fastify.register(user, { prefix: '/users' });
 
   done();
 }

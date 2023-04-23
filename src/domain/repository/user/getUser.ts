@@ -24,7 +24,7 @@ export async function getUserByEmail(email: string): Promise<User> {
 export async function getUserById(id: string): Promise<User> {
   try {
     const [user] = await database('users')
-      .select('id', 'name', 'email')
+      .select('id', 'full_name', 'email')
       .where({ id: id });
     if (!user) {
       throw {
