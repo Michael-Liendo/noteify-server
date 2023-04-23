@@ -15,13 +15,8 @@ export default async function loginControllers(
 
     if (!email || !password) {
       throw {
-        statusCode: 400,
-        error: {
-          message: 'Missing fields email or password',
-          error: 'Bad Request',
-        },
-        data: null,
-        success: false,
+        message: 'Missing fields email or password',
+        error: 'Bad Request',
       };
     }
 
@@ -37,13 +32,8 @@ export default async function loginControllers(
     const user = (await getUserByEmail(email).catch((error) => {
       if (error.code === '404') {
         throw {
-          statusCode: 401,
-          error: {
-            message: 'Invalid email or password',
-            error: 'Unauthorized',
-          },
-          data: null,
-          success: false,
+          message: 'Invalid email or password',
+          error: 'Unauthorized',
         };
       }
     })) as User;
@@ -51,13 +41,8 @@ export default async function loginControllers(
     const isPasswordValid = await checkPassword(password, user.password);
     if (!isPasswordValid) {
       throw {
-        statusCode: 401,
-        error: {
-          message: 'Invalid email or password',
-          error: 'Unauthorized',
-        },
-        data: null,
-        success: false,
+        message: 'Invalid email or password',
+        error: 'Unauthorized',
       };
     }
 
@@ -74,6 +59,14 @@ export default async function loginControllers(
 
     response.send(user);
   } catch (error) {
-    response.code(error.statusCode || 500).send(error);
+    response.code(error.statusCode || 500).send({
+      statusCode: error.statusCode || 500,
+      error: {
+        message: error.message || error,
+        error: error.error || 'Internal Server Error',
+      },
+      data: null,
+      success: false,
+    });
   }
 }

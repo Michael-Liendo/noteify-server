@@ -43,7 +43,7 @@ export default async function registerControllers(
 
       const token = await generateToken(userCreation);
 
-      response.send({
+      response.status(200).send({
         statusCode: 200,
         error: null,
         data: {
@@ -58,37 +58,33 @@ export default async function registerControllers(
 
         throw {
           statusCode: 400,
-          error: {
-            error: 'Bad Request',
-            message: `${column} already exists`,
-          },
-          data: null,
-          success: false,
+          error: 'Bad Request',
+          message: `${column} already exists`,
         };
       } else if (error.code === '23502') {
         throw {
           statusCode: 400,
-          error: {
-            error: 'Bad Request',
-            message: 'A field is missing',
-          },
-          data: null,
-          success: false,
+          error: 'Bad Request',
+          message: 'A field is missing',
         };
       } else {
         console.error(error);
         throw {
           statusCode: 500,
-          error: {
-            error: 'Internal Server Error',
-            message: error.message,
-          },
-          data: null,
-          success: false,
+          error: 'Internal Server Error',
+          message: error.message,
         };
       }
     }
   } catch (error) {
-    response.code(error.statusCode || 500).send(error);
+    response.code(error.statusCode || 500).send({
+      statusCode: error.statusCode || 500,
+      error: {
+        message: error.message || error,
+        error: error.error || 'Internal Server Error',
+      },
+      data: null,
+      success: false,
+    });
   }
 }
