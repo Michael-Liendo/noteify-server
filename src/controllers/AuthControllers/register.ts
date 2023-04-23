@@ -80,7 +80,7 @@ export default async function registerControllers(
     response.code(error.statusCode || 500).send({
       statusCode: error.statusCode || 500,
       error: {
-        message: error.message || error,
+        message: error.message || 'Internal Server Error',
         error: error.error || 'Internal Server Error',
       },
       data: null,
