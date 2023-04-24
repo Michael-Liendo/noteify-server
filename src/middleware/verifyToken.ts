@@ -8,8 +8,8 @@ export default function verifyToken(
 ) {
   let token = request.headers.authorization;
 
-  if (token && token.startsWith('Bearer ')) {
-    token = token.slice(7, token.length);
+  if (token && token.startsWith('JWT ')) {
+    token = token.slice(4, token.length);
   }
 
   if (!token) {
