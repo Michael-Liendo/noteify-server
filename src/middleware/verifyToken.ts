@@ -1,7 +1,12 @@
 import jwt from 'jsonwebtoken';
 
 export default function verifyToken(req, res, next) {
-  const token = req.headers.authorization;
+  let token = req.headers.authorization;
+
+  if (token.startsWith('Bearer ')) {
+    token = token.slice(7, token.length);
+  }
+
   if (!token) {
     return res.status(401).json({
       statusCode: 401,
