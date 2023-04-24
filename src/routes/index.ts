@@ -1,6 +1,6 @@
 import type { FastifyInstance } from 'fastify';
 import auth from './api/auth';
-import user from './api/user';
+import user from './api/users';
 
 export default function routes(fastify: FastifyInstance, options, done) {
   fastify.get('/', async () => {

@@ -1,14 +1,19 @@
+import { FastifyReply, FastifyRequest } from 'fastify';
 import jwt from 'jsonwebtoken';
 
-export default function verifyToken(req, res, next) {
-  let token = req.headers.authorization;
+export default function verifyToken(
+  request: FastifyRequest,
+  response: FastifyReply,
+  next
+) {
+  let token = request.headers.authorization;
 
-  if (token.startsWith('Bearer ')) {
+  if (token && token.startsWith('Bearer ')) {
     token = token.slice(7, token.length);
   }
 
   if (!token) {
-    return res.status(401).json({
+    return response.status(401).send({
       statusCode: 401,
       error: { message: 'Token not provided', error: 'Unauthorized' },
       data: null,
@@ -16,11 +21,11 @@ export default function verifyToken(req, res, next) {
     });
   }
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded;
+    jwt.verify(token, process.env.JWT_SECRET);
+
     next();
   } catch (err) {
-    return res.status(401).json({
+    return response.status(401).send({
       statusCode: 401,
       error: { message: 'Invalid token', error: 'Unauthorized' },
       data: null,
