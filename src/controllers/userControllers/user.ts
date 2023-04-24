@@ -9,11 +9,19 @@ export default async function userController(
     const { id } = request.params as { id: string };
 
     const user = await getUserById(id).catch((error) => {
-      throw {
-        statusCode: error.code,
-        message: error.detail,
-        error: error.message,
-      };
+      if (error.code === '22P02' || error.code === '404') {
+        throw {
+          statusCode: 404,
+          message: 'Not found user',
+          error: 'Not Found',
+        };
+      } else {
+        throw {
+          statusCode: 500,
+          message: error.detail,
+          error: error.message,
+        };
+      }
     });
 
     response.code(200).send({
