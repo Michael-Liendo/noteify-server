@@ -3,6 +3,7 @@ dotenv.config();
 
 import Fastify from 'fastify';
 import cors from '@fastify/cors';
+import cookie from '@fastify/cookie';
 import database from './domain/database';
 import routes from './routes';
 const fastify = Fastify();
@@ -12,6 +13,7 @@ fastify.register(routes, { prefix: '/api' });
 fastify.register(cors, {
   origin: '*',
 });
+fastify.register(cookie);
 
 database
   .raw('select 1')

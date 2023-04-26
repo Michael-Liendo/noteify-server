@@ -15,18 +15,16 @@ export default async function registerControllers(
     if (!full_name || !email || !password) {
       throw {
         statusCode: 400,
-        error: { message: 'Missing fields', error: 'Bad Request' },
-        data: null,
-        success: false,
+        message: 'Missing fields full_name, email and password',
+        error: 'Bad Request',
       };
     }
 
     await userSchema.validate({ full_name, email, password }).catch((err) => {
       throw {
         statusCode: 400,
-        error: { message: err.message, error: 'Bad Request' },
-        data: null,
-        success: false,
+        message: err.message,
+        error: 'Bad Request',
       };
     });
 
@@ -41,13 +39,13 @@ export default async function registerControllers(
     try {
       const userCreation = await createUser(user);
 
-      const token = await generateToken(userCreation);
+      const accessToken = await generateToken(userCreation);
 
-      response.status(200).send({
+      response.setCookie('accessToken', accessToken).status(200).send({
         statusCode: 200,
         error: null,
         data: {
-          token,
+          accessToken,
         },
         success: true,
       });

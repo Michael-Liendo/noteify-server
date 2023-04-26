@@ -2,7 +2,7 @@
 
 This is a web application built with Fastify and Svelte, which provides an API for user management with authentication using JSON Web Tokens (JWT). It allows users to sign up, log in, get their user information, and retrieve a list of all users. The application also implements input validation, error handling, and database integration with Knex.js.
 
-## Requerimientos
+## Requirements
 
 - Node.js >= 14
 - Docker y Docker Compose
