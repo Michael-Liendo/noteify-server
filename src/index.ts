@@ -2,11 +2,16 @@ import * as dotenv from 'dotenv';
 dotenv.config();
 
 import Fastify from 'fastify';
+import cors from '@fastify/cors';
 import database from './domain/database';
 import routes from './routes';
 const fastify = Fastify();
 
 fastify.register(routes, { prefix: '/api' });
+
+fastify.register(cors, {
+  origin: '*',
+});
 
 database
   .raw('select 1')
