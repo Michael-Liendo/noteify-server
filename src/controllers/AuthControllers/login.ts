@@ -49,7 +49,7 @@ export default async function loginControllers(
     response.send({
       statusCode: 200,
       data: {
-        token: accessToken,
+        accessToken,
       },
       error: null,
       success: true,
