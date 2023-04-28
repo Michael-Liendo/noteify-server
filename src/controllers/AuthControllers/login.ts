@@ -44,12 +44,12 @@ export default async function loginControllers(
       };
     }
 
-    const token = await generateToken(user);
+    const accessToken = await generateToken(user);
 
     response.send({
       statusCode: 200,
       data: {
-        token,
+        token: accessToken,
       },
       error: null,
       success: true,
