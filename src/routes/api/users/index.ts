@@ -13,7 +13,7 @@ export default function users(fastify: FastifyInstance, options, done) {
 
   fastify.route({
     method: 'GET',
-    url: '/:id',
+    url: '/user/:id',
     preHandler: verifyToken,
     handler: userController,
   });
