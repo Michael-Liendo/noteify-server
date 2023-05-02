@@ -3,7 +3,10 @@ import database from '../../database';
 
 export async function getNotesByUserId(userId: string) {
   try {
-    const notes = await database('notes').select().where({ user_id: userId });
+    const notes = await database('notes')
+      .select()
+      .where({ user_id: userId })
+      .orderBy('created_at', 'desc');
     if (!notes) {
       throw {
         detail: 'Notes not found',
