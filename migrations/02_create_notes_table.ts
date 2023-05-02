@@ -12,5 +12,5 @@ exports.up = async function (knex: Knex) {
 };
 
 exports.down = function (knex) {
-  return knex.schema.dropTableIfExists('notes');
+  return knex.schema.dropTable('notes');
 };

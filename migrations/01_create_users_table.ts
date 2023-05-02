@@ -11,5 +11,5 @@ exports.up = async (knex: Knex) => {
 };
 
 exports.down = async (knex: Knex) => {
-  await knex.schema.dropTableIfExists('users');
+  await knex.schema.dropTable('users');
 };
