@@ -1,14 +1,21 @@
-import { FastifyReply, FastifyRequest } from 'fastify';
-import { getNoteById } from '../../domain/repository/notes/getNotes';
+// controller to delete a note
+import { FastifyRequest, FastifyReply } from 'fastify';
+import jwt from 'jsonwebtoken';
+import { deleteNoteById } from '../../domain/repository/notes/deleteNote';
 
-export async function NoteByIdController(
+export default async function deleteNoteController(
   request: FastifyRequest,
   response: FastifyReply
 ) {
   try {
+    const { authorization } = request.headers as { authorization: string };
+    const token = authorization.replace('JWT ', '');
+
+    const { id: userId } = jwt.verify(token, process.env.JWT_SECRET);
+
     const { id } = request.params as { id: string };
 
-    const note = await getNoteById(id).catch((error) => {
+    const note = await deleteNoteById(id, userId).catch((error) => {
       if (error.code === '22P02' || error.code === '404') {
         throw {
           statusCode: 404,

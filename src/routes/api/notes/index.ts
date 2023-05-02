@@ -1,8 +1,11 @@
 import { FastifyInstance } from 'fastify';
 import verifyToken from '../../../middleware/verifyToken';
-import userNotesController from '../../../controllers/notesControllers/userNotes';
-import { NoteByIdController } from '../../../controllers/notesControllers/note';
+import {
+  NoteByIdController,
+  userNotesController,
+} from '../../../controllers/notesControllers/UserNote';
 import createNoteController from '../../../controllers/notesControllers/CreateNote';
+import deleteNoteController from '../../../controllers/notesControllers/DeleteNote';
 
 export default function notes(fastify: FastifyInstance, options, done) {
   fastify.route({
@@ -39,9 +42,7 @@ export default function notes(fastify: FastifyInstance, options, done) {
     method: 'DELETE',
     url: '/:id',
     preHandler: verifyToken,
-    handler: async (request, reply) => {
-      // todo: delete note by id
-    },
+    handler: deleteNoteController,
   });
 
   done();
