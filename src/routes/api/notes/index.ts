@@ -6,6 +6,7 @@ import {
 } from '../../../controllers/notesControllers/UserNote';
 import createNoteController from '../../../controllers/notesControllers/CreateNote';
 import deleteNoteController from '../../../controllers/notesControllers/DeleteNote';
+import editNoteController from '../../../controllers/notesControllers/EditNote';
 
 export default function notes(fastify: FastifyInstance, options, done) {
   fastify.route({
@@ -33,9 +34,7 @@ export default function notes(fastify: FastifyInstance, options, done) {
     method: 'PUT',
     url: '/:id',
     preHandler: verifyToken,
-    handler: async (request, reply) => {
-      // todo: update note by id
-    },
+    handler: editNoteController,
   });
 
   fastify.route({
