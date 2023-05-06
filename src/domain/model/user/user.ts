@@ -5,9 +5,6 @@ export const userSchema = Yup.object().shape({
   email: Yup.string().email().required(),
   password: Yup.string()
     .min(8)
-    .max(20)
-    .matches(
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
-    )
+    .matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^\da-zA-Z]).{8,}$/)
     .required(),
 });
