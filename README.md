@@ -1,6 +1,6 @@
 # Noteify
 
-This is a web application built with Fastify and Svelte, which provides an API for user management with authentication using JSON Web Tokens (JWT). It allows users to sign up, log in, get their user information, and retrieve a list of all users. The application also implements input validation, error handling, and database integration with Knex.js.
+This is a backend server built with Fastify, which provides an API for user management with authentication via JSON Web Tokens (JWT) and user notes management. It allows users to register, log in, get their user information, and create, edit, and delete notes. The application also implements input validation, error handling and database integration with Knex.js.
 
 ## Requirements
 
