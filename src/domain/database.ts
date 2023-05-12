@@ -3,7 +3,7 @@ import knex from 'knex';
 const database = knex({
   client: 'pg',
   connection: {
-    host: '0.0.0.0',
+    host: process.env.POSTGRES_HOST,
     user: process.env.POSTGRES_USER,
     password: process.env.POSTGRES_PASSWORD,
     database: process.env.POSTGRES_DB,
